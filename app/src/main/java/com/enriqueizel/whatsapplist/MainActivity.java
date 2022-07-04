@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.enriqueizel.whatsapplist.Adapter.AdapterUser;
 import com.enriqueizel.whatsapplist.Model.User;
+import com.enriqueizel.whatsapplist.RecyclerItemClickListener.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,32 @@ public class MainActivity extends AppCompatActivity {
     recyclerUsers.setAdapter(adapterUser);
 
     generateUsers();
+
+//    evento de click
+    recyclerUsers.addOnItemTouchListener(new RecyclerItemClickListener(
+            getApplicationContext(),
+            recyclerUsers,
+            new RecyclerItemClickListener.OnItemClickListener() {
+              @Override
+              public void onItemClick(View view, int position) {
+                User user = userList.get(position);
+                String message = "usuário " + user.getName() + " foi clicado";
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+              }
+
+              @Override
+              public void onLongItemClick(View view, int position) {
+                User user = userList.get(position);
+                String message = "usuário " + user.getName() + " foi apertado";
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+              }
+
+              @Override
+              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+              }
+            }
+    ));
   }
 
   public void generateUsers() {
